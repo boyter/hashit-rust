@@ -1,4 +1,5 @@
 // https://github.com/RustCrypto/hashes
+// Somewhat similiar to hashdeep
 
 use md5::{Md5, Digest};
 use clap::{App, Arg};
@@ -25,23 +26,28 @@ fn main() {
     let dir_names: Vec<&str> = matches.values_of("FILES").unwrap().collect();
 
     for (_size, &s) in dir_names.iter().enumerate() {
-        println!("{}", s);
         hash_file(s);
-        println!("");
     }
 }
 
 fn hash_file(filename: &str) {
     // For the first attempt just read the whole file then call out to hashing functions
     if let Ok(mut x) = File::open(filename) {
-        let mut buffer = Vec::with_capacity(x.metadata().unwrap().len() as usize);
-        x.read_to_end(&mut buffer);
+        if let Ok(y) = x.metadata() {
+            if y.is_file() {
+                println!("{}", filename);
 
-        hash_md5(&buffer);
-        hash_sha1(&buffer);
-        hash_sha256(&buffer);
-        hash_blake2b(&buffer);
-        hash_blake2s(&buffer);
+                let mut buffer = Vec::with_capacity(y.len() as usize);
+                x.read_to_end(&mut buffer);
+
+                hash_md5(&buffer);
+                hash_sha1(&buffer);
+                hash_sha256(&buffer);
+                hash_blake2b(&buffer);
+                hash_blake2s(&buffer);
+                println!("");
+            }
+        }
     }
 }
 
