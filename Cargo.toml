@@ -5,3 +5,11 @@ authors = ["Ben Boyter <ben@boyter.org>"]
 edition = "2018"
 
 [dependencies]
+clap = "2.33.0"
+md2 = "0.8.0"
+md4 = "0.8.0"
+md-5 = "0.8.0"
+sha-1 = "0.8.1"
+sha2 = "0.8.0"
+sha3 = "0.8.2"
+blake2 = "0.8.0"
